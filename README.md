@@ -1,96 +1,159 @@
-Cinema Database Project
-Objective
+## Project Overview
 
-The goal of this project is to apply MongoDB and Python concepts learned in class to manage and manipulate a movie dataset.
-Project Description
+The Movie Database Project utilizes MongoDB and Python concepts to manage and manipulate a dataset of movies. It involves:
 
-We are working with a movie dataset and using Python and MongoDB to build a system that allows us to store, query, and manipulate movie-related data. The project is structured into several steps:
-Step 1: Import Data
+- Importing movie data from a CSV file.
+- Managing directors and films using Python classes.
+- Executing MongoDB aggregation queries to extract valuable information from the dataset.
 
-    We create a MongoDB database called cinema and a collection named movies.
-    A schema validator is used to ensure data integrity.
-    Using Python and the pymongo library, we import movie data from a .csv file into the movies collection.
+### Key Features
 
-Step 2: Declare Classes
+- **Data Import**: Import movie data from a CSV file into MongoDB using Python's built-in CSV module.
+- **Data Management**: Manage directors and films with Python classes to ensure data integrity.
+- **Aggregation Queries**: Execute queries to retrieve top-rated directors, directors with the most films, and more.
+- **Duplication Prevention**: Prevent movie duplication and externalize the database connection for better scalability.
 
-    Director Class: This class ensures that every director added to the database is validated and meets the necessary data integrity rules.
-    Movie Class: Similarly, this class ensures that each movie added to the database is validated and structured properly.
+## Prerequisites
 
-Step 3: Create the Director Collection
+To run this project, ensure you have the following installed on your machine:
 
-Using pymongo, we will implement the following features:
+- Python 
+- MongoDB
+- `pymongo` library
 
-    Store a list of directors and their corresponding movies in a new collection.
-    Implement a method to list all movies by a given director.
-    Implement a method to calculate the average rating of all movies by a specific director.
-    Implement a method to allow users to add new movies interactively.
+Make sure MongoDB is running locally or remotely and is accessible from your Python script.
 
-Step 4: Aggregation Queries
-
-We will create specific aggregation queries to perform the following:
-
-    List the top 5 highest-rated directors.
-    List the 5 directors whose movies have the longest average runtime.
-    List the 5 directors with the most movies.
-    List the top 15 most frequent actors, including the number of movies they have appeared in and the titles of these movies.
-
-Bonus Features
-
-    Prevent movie duplication in the database.
-    Create a shared class for Director and Movie to manage the _id property and implement a generic get_by_id method.
-    Externalize the database connection using a singleton pattern.
+## Project Structure
 
 ```bash
 cinema_project/
 │
-├── main.py                          # Le fichier principal où tu exécutes le script
+├── .venv/                           # Virtual environment for project dependencies
 │
-├── utils/                           # Utilitaires pour le projet
+├── main.py                          # Main file where the script is executed
+│
+├── utils/                           # Utilities for the project
 │   ├── __init__.py
-│   ├── csv_loader.py                # Le fichier qui chargera les données CSV
-│   ├── mongo_utils.py               # Des fonctions utilitaires pour MongoDB
-│   └── config.py                    # Configurations et constantes
+│   ├── csv_loader.py                # Loads CSV data into MongoDB using the CSV module
+│   ├── mongo_connection.py          # MongoDB connection functions
+│   └── config.py                    # Configuration and constants
 │
-├── models/                          # Modèles pour les entités
+├── models/                          # Models for entities
 │   ├── __init__.py
-│   ├── director.py                  # Modèle pour les réalisateurs
-│   └── movie.py                     # Modèle pour les films
+│   ├── director.py                  # Model for the Director entity
+│   └── movie.py                     # Model for the Movie entity
 │
-├── aggregation/                     # Fichiers d'agrégation
+├── aggregations/                    # Aggregation queries
 │   ├── __init__.py
-│   └── movie_aggregation.py         # Agrégations liées aux films
+│   └── movie_aggregation.py         # Aggregation queries related to movies
 │
-└── data/                            # Dossier contenant les données
-    └── movies.csv                  # Fichier CSV contenant les données des films
+├── data/                            # Data folder
+│   └── movies.csv                   # CSV file containing the movie dataset
+│
+├── requirements.txt                 # File for Python dependencies                  
+└── .gitignore                       # Git ignore file
 ```
 
-# MongoDB Aggregation Class for Movie Dataset
+## .gitignore File
 
-## Overview
-This class is part of a larger project and focuses on MongoDB aggregation for analyzing a movie dataset. It provides methods to fetch insights such as the top-rated directors, directors with the longest average movie duration, and the top 15 actors with the most films. The class is designed to interact with MongoDB and perform complex aggregation queries.
+Include a .gitignore file to prevent committing sensitive information and unnecessary files. Example:
 
-## Features
-- **Top 5 Rated Directors**: Aggregates and retrieves directors based on the highest average movie ratings.
-- **Directors with Longest Average Movie Duration**: Finds directors whose movies have the longest average runtime.
-- **Directors with Most Movies**: Lists directors who have directed the most films in the dataset.
-- **Top 15 Actors**: Displays the top 15 actors, ranked by the number of films they've appeared in, with a numbered list of their movies.
+```bash
+# Python
+*.pyc
+__pycache__/
+.venv/
 
-## Class Details
+# PyCharm
+.idea/
+```
 
-### Aggregation Methods
-- `top_rated_directors(db)`: Retrieves the top 5 directors based on their average movie ratings.
-- `longest_average_duration_directors(db)`: Finds directors with the longest average movie runtime.
-- `most_movies_directors(db)`: Fetches directors who have directed the most movies.
-- `top_15_actors(db)`: Lists the top 15 actors based on the number of movies they appear in and displays a numbered list of the movies.
+## Project Installation
+1. Clone the project:
 
-### Example Output
-Top 5 Rated Directors: Christopher Nolan with average rating: 8.7
+```bash
+git clone <repository_url>
+cd <repo_name>
+```
 
-Directors with Longest Average Movie Duration: Quentin Tarantino with average duration: 142.6 minutes
+2. Create a virtual environment and install dependencies:
 
-Directors with Most Movies: Martin Scorsese with number of movies: 20
+```bash
+python -m venv .venv
+source .venv/bin/activate  # On Windows: .venv\Scripts\activate
+pip install -r requirements.txt
+```
 
-Top 15 Actors: Nicolas Cage with 34 films:
+## How to Run the Project
+Step 1: Start MongoDB
 
-    Movie 1
-    Movie 2 ...
+Ensure that MongoDB is running on your local machine or a remote server. Start MongoDB with the following command:
+
+```bashbash
+mongod
+```
+
+Step 2: Run the Main Script
+
+Execute the main.py script to load the data and perform operations on the database:
+
+```bash
+python main.py
+```
+
+The script will:
+
+    Connect to MongoDB, creating the cinema database and movie collection.
+    Load movie data from the movies.csv file into MongoDB using Python's built-in CSV module.
+    Display aggregation results, such as top-rated directors, actors, and more.
+
+Aggregation Queries
+
+The project supports several aggregation queries that can be executed directly from the main.py script.
+Available Aggregations
+
+    Top 5 Rated Directors: Displays directors with the highest average movie ratings.
+    Top 5 Directors with Longest Average Movie Duration: Lists directors whose films have the longest average duration.
+    Top 5 Directors with Most Films: Shows directors who have made the most movies.
+    Top 15 Most Frequent Actors: Lists actors who have appeared in the most films along with their respective movie titles.
+
+Executing Aggregations
+
+Once the main.py script is executed, the aggregation queries will run automatically, and their results will be displayed in the terminal.
+
+Example output for top 5 rated directors:
+
+Top 5 Rated Directors:
+1. Alper Caglar, Average Rating: 9.50
+2. Yann Arthus-Bertrand, Average Rating: 8.70
+3. ...
+
+Code Structure
+main.py
+
+This file orchestrates the project by:
+
+    Connecting to MongoDB using the connect_mongo function from utils/mongo_connection.py.
+    Loading movie data from data/movies.csv using Python's built-in CSV module.
+    Importing aggregation functions (e.g., top_rated_directors) from aggregations/movie_aggregation.py and executing them to retrieve information.
+
+Example Usage
+
+To load movie data and execute aggregation queries:
+
+    Ensure that MongoDB is running.
+    Run the main.py script:
+
+```bash
+python main.py
+```
+
+The output will include:
+
+    Information about the number of movies and directors inserted.
+    Results of aggregation queries (e.g., top-rated directors, actors, etc.).
+
+
+Conclusion
+
+This project demonstrates the use of MongoDB and Python to manage a movie database, ensuring data integrity and extracting valuable information through aggregation queries. It can be easily extended to include more advanced features such as movie recommendations or user ratings.
